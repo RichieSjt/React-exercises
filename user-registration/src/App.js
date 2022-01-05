@@ -11,10 +11,11 @@ const App = () => {
     }
 
     return (
-        <div>
+        // We can use React.Fragment or empty <> </> to create wrapping elements that don´t add an extra div to the DOM
+        <React.Fragment>
             <UserRegister onAddUser={addUser}/>
             <UsersList users={usersList} />
-        </div>
+        </React.Fragment>
     );
 }
 
