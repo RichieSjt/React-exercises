@@ -119,3 +119,6 @@ dist
 
 # api keys
 api-keys.js
+
+# vscode settings
+.vscode
