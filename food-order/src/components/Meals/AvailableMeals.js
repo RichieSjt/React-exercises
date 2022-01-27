@@ -1,44 +1,48 @@
-import React from 'react'
-import Card from '../UI/Card'
+import { React, useState, useEffect } from 'react'
 
 import classes from './AvailableMeals.module.css'
+import Card from '../UI/Card'
 import MealItem from './MealItem/MealItem'
-
-const DUMMY_MEALS = [
-    {
-        id: 'm1',
-        name: 'Sushi',
-        description: 'Finest fish and veggies',
-        price: 22.99,
-    },
-    {
-        id: 'm2',
-        name: 'Schnitzel',
-        description: 'A german specialty!',
-        price: 16.5,
-    },
-    {
-        id: 'm3',
-        name: 'Barbecue Burger',
-        description: 'American, raw, meaty',
-        price: 12.99,
-    },
-    {
-        id: 'm4',
-        name: 'Green Bowl',
-        description: 'Healthy...and green...',
-        price: 18.99,
-    },
-]
+import useHttp from '../../hooks/use-http'
+import FIREBASE from '../../utils/api-keys'
 
 const AvailableMeals = () => {
-    const mealsList = DUMMY_MEALS.map(meal => <MealItem key={meal.id} id={meal.id} title={meal.name} description={meal.description} price={meal.price} />)
+    const [meals, setMeals] = useState([]);
+    
+    const { isLoading, error, sendRequest: fetchMeals } = useHttp()
+
+    useEffect(() => {
+        const transfromMeals= (mealsObj) => {
+            const loadedMeals = []
+    
+            for (const mealsKey in mealsObj) {
+                loadedMeals.push({ 
+                    id: mealsKey, 
+                    name: mealsObj[mealsKey].name,
+                    description: mealsObj[mealsKey].description,
+                    price: mealsObj[mealsKey].price
+                })
+            }
+            
+            setMeals(loadedMeals)
+        }
+
+        fetchMeals({ url: FIREBASE + 'meals.json' }, transfromMeals)
+    }, [fetchMeals])
+
+
+    const mealsList = meals.map(meal => <MealItem key={meal.id} id={meal.id} title={meal.name} description={meal.description} price={meal.price} />)
+    
+    let content = mealsList
+
+    if (isLoading) content = <p>Loading meals...</p>
+    if (error) content = <p>{error}</p>
 
     return (
         <section className={classes.meals}>
             <Card>
                 <ul>
-                    {mealsList}
+                    {content}
                 </ul>
             </Card>
         </section>

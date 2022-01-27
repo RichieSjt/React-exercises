@@ -44,3 +44,9 @@
     background-color: #8a2b06;
     color: white;
 }
+
+.info {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
