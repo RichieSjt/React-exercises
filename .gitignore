@@ -122,3 +122,6 @@ api-keys.js
 
 # vscode settings
 .vscode
+
+#jsconfig for vscode
+jsconfig.json
