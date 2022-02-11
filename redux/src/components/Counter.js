@@ -1,31 +1,30 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { counterActions } from '../store/counterSlice'
 
 import classes from './Counter.module.css'
 
 const Counter = () => {
     // Setting a subscription to the redux store
-    const counter = useSelector((state) => state.counter)
-    const counterIsShown = useSelector((state) => state.counterIsShown)
+    const counter = useSelector((state) => state.counter.counter)
+    const counterIsShown = useSelector((state) => state.counter.counterIsShown)
 
     // useDispatch returns a function
     const dispatch = useDispatch()
 
     const incrementHandler = () => {
         // Dispatching an action with the previously obtained function
-        dispatch( { type: 'increment', amount: 1 } )
+        dispatch(counterActions.increment(1))
     }
     const increaseBy5Handler = () => {
-        // Dispatching an action with the previously obtained function
-        dispatch( { type: 'increment', amount: 5 } )
+        dispatch(counterActions.increment(5))
     }
     const decrementHandler = () => {
-        // Dispatching an action with the previously obtained function
-        dispatch( { type: 'decrement', amount: 1} )
+        dispatch(counterActions.decrement(1))
     }
 
     const toggleCounterHandler = () => {
-        dispatch( {type: 'toggle' })
+        dispatch(counterActions.toggleCounter())
     }
 
     return (

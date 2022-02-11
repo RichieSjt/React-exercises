@@ -1,32 +1,15 @@
-import React from 'react'
-import { createStore } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 
-const initialState = { counter: 0, counterIsShown: true }
+import counterSlice from './counterSlice'
+import authSlice from './authSlice'
 
-const counterReducer = (state = initialState, action) => {
-    // NEVER mutate state in redux, instead overwrite it by returning a new state object
-    switch (action.type) {
-        case 'increment':
-            return {
-                counter: state.counter + action.amount,
-                counterIsShown: state.counterIsShown,
-            }
-        case 'decrement':
-            return {
-                counter: state.counter - action.amount,
-                counterIsShown: state.counterIsShown,
-            }
-        case 'toggle':
-            return {
-                counter: state.counter,
-                counterIsShown: !state.counterIsShown
-            }
-        default:
-            return state
+// Configure store makes multiple reducers merging easier
+const store = configureStore({
+    reducer: { 
+        counter: counterSlice,
+        auth: authSlice
     }
-
-}
-
-const store = createStore(counterReducer)
+})
+// const store = createStore(counterReducer)
 
 export default store
