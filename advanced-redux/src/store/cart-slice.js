@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-import { uiSliceActions } from './ui-slice'
+import { fetchCartData } from './cart-actions'
 
 const initialCartState = {
     cartItems: [],
     totalQuantity: 0,
+    changed: false
 }
 
 const cartSlice = createSlice({
@@ -33,6 +33,7 @@ const cartSlice = createSlice({
             }
 
             state.totalQuantity += itemToAdd.quantity
+            state.changed = true
         },
         removeItem(state, action) {
             const id = action.payload
@@ -49,56 +50,16 @@ const cartSlice = createSlice({
             }
 
             state.totalQuantity--
+            state.changed = true
         },
     },
-})
-
-// Creating our own custom action creator
-export const sendCartData = (cart) => {
-    return async (dispatch) => {
-        dispatch(
-            uiSliceActions.showNotification({
-                status: 'pending',
-                title: 'Sending...',
-                message: 'Sending cart data!',
-            })
-        )
-
-        const sendRequest = async () => {
-            const response = await fetch(
-                'https://react-movie-db-a8b58-default-rtdb.firebaseio.com/cart.json',
-                {
-                    method: 'PUT',
-                    body: JSON.stringify(cart),
-                }
-            )
-
-            if (!response.ok) {
-                throw new Error('Sending cart data failed.')
-            }
-        }
-
-        try {
-            await sendRequest()
-            
-            dispatch(
-                uiSliceActions.showNotification({
-                    status: 'success',
-                    title: 'Success!',
-                    message: 'Sent cart data successfully!',
-                })
-            )
-        } catch (error) {
-            dispatch(
-                uiSliceActions.showNotification({
-                    status: 'error',
-                    title: 'Error!',
-                    message: 'Sending cart data failed!',
-                })
-            )
+    extraReducers: {
+        [fetchCartData.fulfilled]: (state, action) => {
+            state.cartItems = action.payload.cartItems
+            state.totalQuantity = action.payload.totalQuantity
         }
     }
-}
+})
 
 export const cartSliceActions = cartSlice.actions
 
