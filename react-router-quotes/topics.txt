@@ -1,0 +1,11 @@
+Section topics
+
+Multi-page SPA using React Router
+Dynamic Routes
+Nested Routes
+Extracting Route params
+Prompt component
+Http requests
+Lazy Loading
+Building react apps for production
+Deploying SPA to Firebase using Firebase cli tool
