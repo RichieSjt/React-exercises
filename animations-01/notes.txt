@@ -1,0 +1,15 @@
+Installs
+- npm i react-transition-group
+
+Topics
+- CSS Transitions
+- CSS Animations
+- React transition group
+- Transition component
+- Transition events
+- Animating lists
+
+Other animation packages
+- react-motion
+- react-move
+- react-router-transition
